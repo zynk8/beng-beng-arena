@@ -22,6 +22,8 @@ export interface PlayerSnapshot {
   position: Vec3;
   yaw: number;
   pitch: number;
+  isCrouching: boolean;
+  isJumping: boolean;
 }
 
 export interface RemotePlayerSnapshot {
@@ -34,6 +36,8 @@ export interface RemotePlayerSnapshot {
   pitch: number;
   alive: boolean;
   isHost: boolean;
+  isCrouching: boolean;
+  isJumping: boolean;
 }
 
 export type WeaponSlot = 'primary' | 'secondary' | 'knife';

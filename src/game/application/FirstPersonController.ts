@@ -131,7 +131,9 @@ export class FirstPersonController {
 
     this.bridge.updateEnemyRespawns(performance.now() / 1000);
     this.updateEnemyAi(deltaSeconds);
+    const isJumping = !isGrounded;
     this.bridge.setPlayerPose(this.eyePosition(), this.yaw, this.pitch);
+    this.bridge.setPlayerPosture(input.crouch, isJumping);
   }
 
   private handleBuys(input: InputSnapshot): void {

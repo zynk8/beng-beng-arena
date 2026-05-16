@@ -78,10 +78,10 @@ export const lobbyClient = {
       body: JSON.stringify({ playerId }),
     });
   },
-  async updatePlayer(code: string, playerId: string, position: Vec3, yaw: number, pitch: number, health: number): Promise<{ match: NetworkMatchState }> {
+  async updatePlayer(code: string, playerId: string, position: Vec3, yaw: number, pitch: number, health: number, isCrouching: boolean, isJumping: boolean): Promise<{ match: NetworkMatchState }> {
     return requestJson(`/api/lobbies/${code.trim().toUpperCase()}/players/${playerId}`, {
       method: 'POST',
-      body: JSON.stringify({ position, yaw, pitch, health }),
+      body: JSON.stringify({ position, yaw, pitch, health, isCrouching, isJumping }),
     });
   },
   async matchState(code: string, playerId: string): Promise<{ match: NetworkMatchState }> {

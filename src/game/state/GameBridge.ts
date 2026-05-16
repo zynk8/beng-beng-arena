@@ -68,6 +68,10 @@ export class GameBridge {
     this.store.setPlayerPose(position, yaw, pitch);
   }
 
+  setPlayerPosture(isCrouching: boolean, isJumping: boolean): void {
+    this.store.setPlayerPosture(isCrouching, isJumping);
+  }
+
   setPointerLocked(isPointerLocked: boolean): void {
     this.store.setPointerLocked(isPointerLocked);
   }

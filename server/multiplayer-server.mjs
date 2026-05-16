@@ -82,6 +82,8 @@ const createPlayer = ({ name, team, isHost = false }) => ({
   position: team === 'friendly' ? { x: -8, y: 1.8, z: 25 } : { x: -9, y: 1.8, z: -25 },
   yaw: team === 'friendly' ? Math.PI : 0,
   pitch: 0,
+  isCrouching: false,
+  isJumping: false,
   lastSeenAt: Date.now(),
 });
 
@@ -95,6 +97,8 @@ const playerSnapshot = (player) => ({
   pitch: player.pitch,
   alive: player.alive,
   isHost: player.isHost,
+  isCrouching: Boolean(player.isCrouching),
+  isJumping: Boolean(player.isJumping),
 });
 
 const matchState = (lobby) => ({
@@ -299,12 +303,14 @@ const route = async (request, response) => {
 
       const body = await readJson(request);
       player.position = {
-        x: Number(body.position?.x) || player.position.x,
-        y: Number(body.position?.y) || player.position.y,
-        z: Number(body.position?.z) || player.position.z,
+        x: Number.isFinite(Number(body.position?.x)) ? Number(body.position.x) : player.position.x,
+        y: Number.isFinite(Number(body.position?.y)) ? Number(body.position.y) : player.position.y,
+        z: Number.isFinite(Number(body.position?.z)) ? Number(body.position.z) : player.position.z,
       };
-      player.yaw = Number(body.yaw) || 0;
-      player.pitch = Number(body.pitch) || 0;
+      player.yaw = Number.isFinite(Number(body.yaw)) ? Number(body.yaw) : player.yaw;
+      player.pitch = Number.isFinite(Number(body.pitch)) ? Number(body.pitch) : player.pitch;
+      player.isCrouching = Boolean(body.isCrouching);
+      player.isJumping = Boolean(body.isJumping);
       player.lastSeenAt = Date.now();
       sendJson(response, 200, { match: matchState(lobby) });
       return;

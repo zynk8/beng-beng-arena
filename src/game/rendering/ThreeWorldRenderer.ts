@@ -1277,7 +1277,7 @@ export class ThreeWorldRenderer implements Disposable {
 
       view.root.visible = player.alive;
       view.label.visible = true;
-      this.applyThirdPersonPose(view, player.position);
+      this.applyThirdPersonPose(view, player.position, player.isCrouching, player.isJumping);
       view.root.rotation.y = player.yaw;
       view.rifle.rotation.x = -0.08 + player.pitch * 0.25;
       view.bodyMaterial.color.setHex(player.team === 'friendly' ? 0x2c5a76 : 0x7b2532);
@@ -1314,10 +1314,12 @@ export class ThreeWorldRenderer implements Disposable {
     });
   }
 
-  private applyThirdPersonPose(view: EnemyModelView, position: Vec3): void {
+  private applyThirdPersonPose(view: EnemyModelView, position: Vec3, isCrouching: boolean, isJumping: boolean): void {
     const eyeHeight = position.y;
-    const jumpHeight = Math.max(0, eyeHeight - 1.82);
-    const crouchAmount = Math.max(0, Math.min(1, (1.72 - eyeHeight) / 0.58));
+    const jumpHeight = isJumping ? Math.max(0, eyeHeight - 1.82) : 0;
+    const crouchAmount = isCrouching
+      ? 1
+      : Math.max(0, Math.min(1, (1.72 - eyeHeight) / 0.58));
     const bodyScaleY = 1 - crouchAmount * 0.28;
 
     view.root.position.set(position.x, jumpHeight, position.z);

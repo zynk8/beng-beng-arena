@@ -25,6 +25,8 @@ const sync = async (): Promise<void> => {
       player.yaw,
       player.pitch,
       player.health,
+      player.isCrouching,
+      player.isJumping,
     );
     store.applyNetworkMatch(response.match);
   } catch {

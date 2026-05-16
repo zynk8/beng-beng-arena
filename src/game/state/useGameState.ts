@@ -95,6 +95,8 @@ const localPlayerDefaults = (mapId: TacticalMapId = defaultMapId): PlayerSnapsho
     position: { ...map.playerStart },
     yaw: 0,
     pitch: 0,
+    isCrouching: false,
+    isJumping: false,
   };
 };
 
@@ -380,6 +382,10 @@ export const useGameState = defineStore('game-state', {
       if (!this.isInBuyZone && this.isBuyMenuOpen) {
         this.isBuyMenuOpen = false;
       }
+    },
+    setPlayerPosture(isCrouching: boolean, isJumping: boolean) {
+      this.localPlayer.isCrouching = isCrouching;
+      this.localPlayer.isJumping = isJumping;
     },
     setPointerLocked(isPointerLocked: boolean) {
       this.isPointerLocked = isPointerLocked;
